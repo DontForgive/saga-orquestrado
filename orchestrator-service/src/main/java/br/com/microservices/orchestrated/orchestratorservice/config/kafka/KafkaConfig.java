@@ -1,5 +1,4 @@
-package br.com.microservices.orchestrated.orderservice.config.kafka;
-
+package br.com.microservices.orchestrated.orchestratorservice.config.kafka;
 
 import lombok.RequiredArgsConstructor;
 import org.apache.kafka.clients.consumer.ConsumerConfig;

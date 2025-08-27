@@ -1,8 +1,8 @@
 package br.com.microservices.orchestrated.inventoryservice.core.dto;
 
-import br.com.microservices.orchestrated.paymentservice.core.dto.History;
-import br.com.microservices.orchestrated.paymentservice.core.dto.Order;
-import br.com.microservices.orchestrated.paymentservice.core.enums.ESagaStatus;
+import br.com.microservices.orchestrated.inventoryservice.core.dto.History;
+import br.com.microservices.orchestrated.inventoryservice.core.dto.Order;
+import br.com.microservices.orchestrated.inventoryservice.core.enums.ESagaStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

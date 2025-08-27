@@ -85,12 +85,12 @@ services:
 
   redpanda-console:
     container_name: redpanda
-    image: docker.redpanda.com/redpandadata/console:v2.3.8
+    image: docker.redpanda.com/redpandadata/console:v3.2.0
     restart: on-failure
     entrypoint: /bin/sh
     command: -c "echo \"$$CONSOLE_CONFIG_FILE\" > /tmp/config.yml; /app/console"
     ports:
-      - "8081:8080"
+      - "8085:8080"
     networks:
       - orchestrator-saga
     environment:
@@ -106,7 +106,7 @@ services:
     image: provectuslabs/kafka-ui:latest
     restart: always
     ports:
-      - 8080:8080
+      - 8086:8080
     networks:
       - orchestrator-saga
     environment:

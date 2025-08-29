@@ -23,6 +23,5 @@ public class EventConsumer {
         log.info("Receiving ending notification event {} from notify-ending topic", payload);
         var event = jsonUtil.toEvent(payload);
         service.notifyEnding(event);
-
     }
 }

@@ -12,7 +12,5 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class OrderRequest {
-
     private List<OrderProducts> products;
-
 }

@@ -1,14 +1,13 @@
 package br.com.microservices.orchestrated.orderservice.core.service;
 
 
+import br.com.microservices.orchestrated.orderservice.config.exception.ValidationException;
 import br.com.microservices.orchestrated.orderservice.core.document.Event;
 import br.com.microservices.orchestrated.orderservice.core.dto.EventFilters;
 import br.com.microservices.orchestrated.orderservice.core.repository.EventRepository;
-import jakarta.validation.ValidationException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-
 import java.time.LocalDateTime;
 import java.util.List;
 

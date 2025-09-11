@@ -41,12 +41,12 @@ public class EventService {
     }
 
     public Event findByOrderId(String orderId){
-        return eventRepository.findTop1ByTransactionIdOrderByCreatedAtDesc(orderId)
+        return eventRepository.findTop1ByOrderIdOrderByCreatedAtDesc(orderId)
                 .orElseThrow(() -> new ValidationException("Event not found by orderID"));
     }
 
     public Event findByTransactionId(String transactionId){
-        return eventRepository.findTop1ByOrderIdOrderByCreatedAtDesc(transactionId)
+        return eventRepository.findTop1ByTransactionIdOrderByCreatedAtDesc(transactionId)
                 .orElseThrow(() -> new ValidationException("Event not found by transactionId"));
     }
 

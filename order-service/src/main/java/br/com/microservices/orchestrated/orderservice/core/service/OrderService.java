@@ -48,6 +48,7 @@ public class OrderService {
                 builder()
                .orderId(order.getId())
                .transactionId(order.getTransactionId())
+                .createdAt(order.getCreatedAt())
                .payload(order)
                .build();
         eventService.save(event);

@@ -5,7 +5,6 @@ import br.com.microservices.orchestrated.orderservice.core.document.Event;
 import br.com.microservices.orchestrated.orderservice.core.document.Order;
 import br.com.microservices.orchestrated.orderservice.core.dto.OrderRequest;
 import br.com.microservices.orchestrated.orderservice.core.producer.SagaProducer;
-import br.com.microservices.orchestrated.orderservice.core.repository.EventRepository;
 import br.com.microservices.orchestrated.orderservice.core.repository.OrderRepository;
 import br.com.microservices.orchestrated.orderservice.core.utils.JsonUtil;
 import lombok.AllArgsConstructor;
@@ -26,13 +25,13 @@ public class OrderService {
 
     private final OrderRepository repository;
 
-    public Order createOrder(OrderRequest orderRequest){
+    public Order createOrder(OrderRequest orderRequest) {
         var order = Order
                 .builder()
                 .products(orderRequest.getProducts())
                 .createdAt(LocalDateTime.now())
                 .transactionId(
-                      String.format(TRANSACTION_ID_PATTERN, Instant.now().toEpochMilli(), UUID.randomUUID())
+                        String.format(TRANSACTION_ID_PATTERN, Instant.now().toEpochMilli(), UUID.randomUUID())
                 )
                 .build();
 
@@ -42,15 +41,15 @@ public class OrderService {
 
     }
 
-    public Event createPayload(Order order){
+    public Event createPayload(Order order) {
 
         var event = Event.
                 builder()
-               .orderId(order.getId())
-               .transactionId(order.getTransactionId())
+                .orderId(order.getId())
+                .transactionId(order.getTransactionId())
                 .createdAt(order.getCreatedAt())
-               .payload(order)
-               .build();
+                .payload(order)
+                .build();
         eventService.save(event);
         return event;
     }

@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 
-import static br.com.microservices.orchestrated.paymentservice.core.enums.ESagaStatus.SUCCESS;
+import static br.com.microservices.orchestrated.paymentservice.core.enums.ESagaStatus.*;
 
 @Slf4j
 @Service
@@ -30,7 +30,7 @@ public class PaymentService {
     private final KafkaProducer producer;
     private final PaymentRepository paymentRepository;
 
-    private void realizePayment(Event event) {
+    public void realizePayment(Event event) {
         try {
             checkCurrentValidation(event);
             createPendingPayment(event);
@@ -41,6 +41,7 @@ public class PaymentService {
 
         } catch (Exception e) {
             log.error("Error trying to make payment:  " + e);
+            handleFailCurrentNotExecuted(event, e.getMessage());
         }
 
         producer.sendEvent(jsonUtil.toJson(event));
@@ -119,6 +120,27 @@ public class PaymentService {
     private void setEventAmountItems(Event event, Payment payments) {
         event.getPayload().setTotalAmount(payments.getTotalAmount());
         event.getPayload().setTotalItems(payments.getTotalItems());
+    }
+
+    private void handleFailCurrentNotExecuted(Event event, String message) {
+        event.setStatus(ROLLBACK_PENDING);
+        event.setSource(CURRENT_SOURCE);
+        addHistory(event, "Fail to validate payment: ".concat(message));
+    }
+
+    public void realizeRefund(Event event) {
+        changePaymentStatusToRefund(event);
+        event.setStatus(FAIL);
+        event.setSource(CURRENT_SOURCE);
+        addHistory(event, "Rollback executed for payment!");
+        producer.sendEvent(jsonUtil.toJson(event));
+    }
+
+    private void changePaymentStatusToRefund(Event event) {
+        var payment = findByOrderIdAndTransactionId(event);
+        payment.setStatus(EPaymentStatus.REFUND);
+        setEventAmountItems(event, payment);
+        save(payment);
     }
 
     private Payment findByOrderIdAndTransactionId(Event event) {
